@@ -1,0 +1,26 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/main.html">
+    <div layout:fragment="myContent" >
+        <div class="row" style="color: white">
+            <div class="col-sm-8">
+                <h1>
+                   Welcome, <span th:text = "${user.fullName}"></span> !
+                </h1>
+            </div>
+        </div>
+        <div class="list-group">
+            <a th:each="post:${posts}"  th:href = "@{'/postDetails/'+${post.id}}" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1" th:utext = "${post.title}"></h5>
+                    <small th:text = "${post.date}"></small>
+                </div>
+                <p class="mb-10" th:text="${post.shortContent}"></p>
+                <small th:text = "${post.author.fullName}"></small>
+                <p class="mb-25" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')">
+                    <a th:href = "@{'/deletePost/'+${post.id}}">DELETE</a>| <a th:href = "@{'/editPost/'+${post.id}}">EDIT</a></p>
+            </a>
+        </div>
+    </div>
+</html>

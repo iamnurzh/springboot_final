@@ -1,0 +1,34 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/main.html">
+<div layout:fragment="myContent" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')">
+    <h1>Now you are editing: <span style="color: floralwhite" th:text="${post.title}"></span>  post from : <span style="color: floralwhite" th:text="${post.author.fullName}"></span></span></h1>
+    <div class="row">
+        <div class="col-sm-8">
+            <form action="/updatePost" method="post">
+                <input type="hidden" name="post_id" th:value="${post.id}">
+                <div class="form-group">
+                    <label>
+                        CONTENT :
+                    </label>
+                    <input type="text" name="post_content"  th:value="${post.content}" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>
+                        SHORT_CONTENT :
+                    </label>
+                    <input type="text" name="post_shortContent" class="form-control" th:value="${post.shortContent}">
+                </div>
+                <div class="form-group">
+                    <label>
+                        TITLE :
+                    </label>
+                    <input type="text" name="post_title" class="form-control" th:value="${post.title}">
+                </div>
+                <button class="btn btn-success">UPDATE</button>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

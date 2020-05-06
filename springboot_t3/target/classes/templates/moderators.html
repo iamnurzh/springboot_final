@@ -1,0 +1,74 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/main.html">
+<div layout:fragment="myContent" >
+    <div class="row">
+        <div class="col-sm-8">
+            <h1 >
+                Here you can add new moderators and edit them!
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-8">
+            <form action="/addModer" method="post" class="form">
+
+                <div class="form-group">
+                    <label>
+                        NAME :
+                    </label>
+                    <input type="text" name="moder_name" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label>
+                        EMAIL :
+                    </label>
+                    <input type="text" name="moder_email" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>
+                        PASSWORD :
+                    </label>
+                    <input type="password" name="moder_password" class="form-control">
+                </div>
+                <button class="btn btn-success">ADD</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-12">
+            <table cellpadding="20" class="table table-dark">
+                <thead>
+                <tr>
+                    <th>
+                        ID
+                    </th>
+                    <th>
+                        EMAIL
+                    </th>
+                    <th>
+                        FULL NAME
+                    </th>
+                    <th>
+                        DETAILS
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each = "moders : ${modersList}">
+                    <td th:text = "${moders.id}"></td>
+                    <td th:text = "${moders.email}"></td>
+                    <td th:text = "${moders.fullName}"></td>
+                    <td>
+                        <a th:href = "@{'/editModer/'+${moders.id}}">DETAILS</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</html>

@@ -1,0 +1,22 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/main.html">
+<div layout:fragment="myContent" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR','ROLE_USER')">
+    <h1>Now you are editing: comment  from : <span th:text="${comment.author.fullName}"></span></span></h1>
+    <div class="row">
+        <div class="col-sm-8">
+            <form action="/updateComment" method="post">
+                <input type="hidden" name="comment_id" th:value="${comment.id}">
+                <div class="form-group">
+                    <label>
+                        comment :
+                    </label>
+                    <input type="text" name="comment"  th:value="${comment.comment}" class="form-control">
+                </div>
+                <button class="btn btn-success">UPDATE</button>
+            </form>
+        </div>
+    </div>
+</div>
+</html>

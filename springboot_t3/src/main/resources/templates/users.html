@@ -1,0 +1,75 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorator="layouts/main.html">
+    <div layout:fragment="myContent" >
+        <div class="row">
+            <div class="col-sm-8">
+                <h1>
+                    Here you can add simple users and edit them!
+                </h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-8">
+                <form action="/addUser" method="post" class="form">
+
+                    <div class="form-group">
+                        <label>
+                            NAME :
+                        </label>
+                        <input type="text" name="user_name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            EMAIL :
+                        </label>
+                        <input type="text" name="user_email" class="form-control">
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            PASSWORD :
+                        </label>
+                        <input type="password" name="user_password" class="form-control">
+                    </div>
+                    <button class="btn btn-success">ADD</button>
+                </form>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-sm-12">
+                <table cellpadding="20" class="table table-dark">
+                    <thead>
+                    <tr>
+                        <th>
+                            ID
+                        </th>
+                        <th>
+                            EMAIL
+                        </th>
+                        <th>
+                            FULL NAME
+                        </th>
+                        <th>
+                            DETAILS
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each = "usr : ${userList}">
+                        <td th:text = "${usr.id}"></td>
+                        <td th:text = "${usr.email}"></td>
+                        <td th:text = "${usr.fullName}"></td>
+                        <td>
+                            <a th:href = "@{'/editUser/'+${usr.id}}">DETAILS</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</html>

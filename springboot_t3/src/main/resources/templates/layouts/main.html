@@ -1,0 +1,87 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+    <head>
+        <title th:text = "#{label.title}"></title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    </head>
+    <body style="background-image: url('https://sun9-20.userapi.com/c855720/v855720669/232751/JHYl0t_KSEM.jpg')">
+        <div class="container-fluid">
+            <nav class="navbar navbar-expand-lg navbar-dark" style="background-image: url('https://sun9-62.userapi.com/c855720/v855720669/232740/xY6q7mmbS7w.jpg')"  >
+                <a class="navbar-brand" href="/"> <img src="https://sun9-24.userapi.com/c855720/v855720669/232748/bHdAH9QMRos.jpg"     alt="logo" width="100px" height="40px"> <span class="glyphicon glyphicon-user"></span></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" sec:authorize="isAnonymous()">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{'/registration'}" th:text = "#{label.reg}"></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{'/login'}" th:text = "#{label.log}"></a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="collapse navbar-collapse" sec:authorize="isAuthenticated()">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{'/profile'}" th:text = "#{label.profile}"></a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                            <a class="nav-link" th:text = "#{label.moders}" th:href="@{'/moderators'}" ></a>
+                        </li>
+                        <li class="nav-item" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')">
+                            <a class="nav-link" th:href="@{'/users'}" th:text = "#{label.users}"></span></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="JavaScript:void(0)" onclick="toLogout()" th:text = "#{label.logout}">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="collapse navbar-collapse" style="position: absolute; right:50px">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item" >
+                            <a class="nav-link" th:href="@{'?lang=en'}">ENG</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{'?lang=ru'}">РУС</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+            <form th:action = "@{'/signout'}" method="post" id = "logoutFormId">
+            </form>
+            <script type="text/javascript">
+                function toLogout() {
+                    document.getElementById("logoutFormId").submit();
+                }
+            </script>
+        </div>
+        <div class="container-fluid mt-4">
+            <div class="row">
+                <div class="col-sm-4">
+                    <ul class="list-group" sec:authorize="hasAnyRole('ROLE_ADMIN')">
+                        <li class="list-group-item" th:text = "#{label.allf}">All Films</li>
+                        <li class="list-group-item" th:text = "#{label.topf}">Top Films</li>
+                    </ul>
+                    <ul class="list-group" sec:authorize="hasAnyRole('ROLE_MODERATOR')">
+                        <li class="list-group-item" th:text = "#{label.allf}">All Films</li>
+                        <li class="list-group-item" th:text = "#{label.topf}">Top Films</li>
+                    </ul>
+                    <ul class="list-group" sec:authorize="isAnonymous()">
+                        <li class="list-group-item" th:text = "#{label.allf}">All Films</li>
+                    </ul>
+                    <ul class="list-group" sec:authorize="hasAnyRole('ROLE_USER')">
+                        <li class="list-group-item" th:text = "#{label.profile}">PROFILE</li>
+                    </ul>
+                </div>
+                <div class="col-sm-8" layout:fragment="myContent" style="min-height: 700px;">
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

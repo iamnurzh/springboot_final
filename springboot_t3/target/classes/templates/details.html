@@ -1,0 +1,37 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layouts/main.html"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">>
+<div layout:fragment="myContent">
+    <div class="media">
+        <img src="" class="mr-3" alt="...">
+        <div class="media-body">
+            <h5 class="mt-0" th:utext = "${post.title}"></h5>
+           <p style="color: floralwhite" th:text="${post.content}"></p>
+            <div style="color: floralwhite" th:each="comment:${postcomments}" class="media mt-3">
+                <a class="mr-3" href="#">
+                    <img src="" class="mr-3" alt="...">
+                </a>
+                <div class="media-body">
+                    <h5 class="mt-0" style="color: floralwhite" th:text="${comment.author.fullName}" ></h5>
+                    <p style="color: floralwhite" th:text="${comment.comment}"></p>
+                    <small style="color: floralwhite" th:text="${comment.date}"> <- posted at</small>
+                    <small sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_MODERATOR')"><a th:href = "@{'/deleteComment/'+${comment.id}}">DELETE</a>
+                           <a th:href = "@{'/editComment/'+${comment.id}}">EDIT</a>
+                    </small>
+                    <br>
+                </div>
+            </div>
+            <br>
+            <form class="form-inline" action="/addComment" method="post" sec:authorize="hasAnyRole('ROLE_ADMIN','ROLE_USER','ROLE_MODERATOR')">
+                <div class="form-group mx-sm-3 mb-20">
+                    <input type="text" class="form-control" placeholder="Leave your comment" name="comment">
+                    <input type="hidden" th:value="${post.id}" name="post_id">
+                 </div>
+                <button class="btn btn-primary mb-20">Comment</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+</html>
